@@ -40,11 +40,15 @@
 
 
 
-## labels64_onehot.npy ???????
+## labels64_onehot.npy  
 - 描述  
   专用于神经网络的标签数据, 由 onehot 向量组成.    
 
-- ????????
+- 内容  
+  1000 行 64*4=256 列; 任意某行的 256 个元素中, 每 4 个为一组 onehot 编码.  
+  
+- 读取  
+  `original_64_onehot = np.load("./data_sets/labels64_onehot.npy")`  
 
 
 ## after_cp80.npy

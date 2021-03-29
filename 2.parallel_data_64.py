@@ -42,8 +42,23 @@ original_64[:, 39] = 3
 original_64[:, 40:53] = original_48[:, 30:43]
 original_64[:, 53] = 3
 original_64[:, 54:59] = original_48[:, 43:48]
+
 # Save data set
 # np.savetxt("./data_sets/labels64.csv", original_64, delimiter=',', fmt="%d")
+
+
+# Transform original_64 into onehot vector. ONLY for 4th order modulation!!
+# 0->[1 0 0 0], 1->[0 1 0 0], 2->[0 0 1 0], 3->[0 0 0 1]
+def one_hot_mapping(x, num_classes=4):
+    mapping_list = np.eye(num_classes)
+    return mapping_list[x]
+
+
+original_64_onehot = np.array([one_hot_mapping(i) for i in original_64])
+original_64_onehot = original_64_onehot.reshape(original_64.shape[0], -1)
+# Save the result
+# np.save("./data_sets/labels64_onehot.npy", original_64_onehot)
+# original_64_onehot = np.load("./data_sets/labels64_onehot.npy")  # load the data set
 
 
 

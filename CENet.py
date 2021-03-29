@@ -4,4 +4,4 @@
 # @File       : CENet.py
 # @Software   : PyCharm
 # @Notice     : It's a WINDOWS version!
-#
+#               信道估计神经网络的线下训练, 可供线上使用时 fine-tune

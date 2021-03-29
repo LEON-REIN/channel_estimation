@@ -61,6 +61,3 @@ xn = after_fft64 / hn_LS
 demodu_LS = qamdemod(xn)
 # np.save("./data_sets/demodu_LS.npy", demodu_LS)  # save the data
 # demodu_LS = np.load("./data_sets/demodu_LS.npy")  # read the data
-
-
-# TODO: 直接除以原 h 的 fft
