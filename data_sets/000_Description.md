@@ -1,8 +1,8 @@
 # 各数据集描述
 ------------------------------
-## labels48.csv
+## labels48_test.csv
 - 描述  
-  原始数据星座映射后的样本数据集.
+  原始数据星座映射后的样本数据集. 用于各信道估计方式的横向测试.
   
 - 内容  
   一个 CSV 表格文件, 共 1000 行 48 列, 共 48000 个四进制码元(int 类型).    
@@ -10,11 +10,23 @@
   调制阶数为 4, 每个数据码元为 {0, 1, 2, 3} 中的一个, 且均匀分布.  
   
 - 读取  
-  `np.loadtxt("./data_sets/labels48.csv", delimiter=",").astype(np.int)`
+  `np.loadtxt("./data_sets/labels48_test.csv", delimiter=",").astype(np.int)`
 
-## labels64.csv
+## labels48_train.csv
 - 描述  
-  将 `labels48.csv` 插入保护子载波, DC置零, 和导频.
+  原始数据星座映射后的样本数据集. 仅用于神经网络的训练.
+
+- 内容  
+  一个 CSV 表格文件, 共 10000 行 48 列, int 类型.    
+  每行表示一个 OFDM 符号要调制的 48 个数据码元, 共 10000 个样本.   
+  调制阶数为 4, 每个数据码元为 {0, 1, 2, 3} 中的一个, 且均匀分布.
+
+- 读取  
+  `original_symbols_train = np.load("./data_sets/labels48_train.npy")`
+
+## labels64_test.csv
+- 描述  
+  将 `labels48_test.csv` 插入保护子载波, DC置零, 和导频.
   
 - 内容  
   下标 [0:6] 共 6 个为置零子载波, 为 0;  
@@ -37,10 +49,12 @@
 - 注意  
   将此文件转为复数后, 需要根据多进制调制方式对模值进行归一化!!
   
+## labels64_train.npy
+- 描述  
+  基本同 `labels64_test.csv`, 除了行数为 10000.
 
 
-
-## labels64_onehot.npy  
+## labels64_onehot_test.npy  
 - 描述  
   专用于神经网络的标签数据, 由 onehot 向量组成.    
 
@@ -50,8 +64,12 @@
 - 读取  
   `original_64_onehot = np.load("./data_sets/labels64_onehot.npy")`  
 
+## labels64_onehot_train.npy
+- 描述  
+  基本同上, 除了行数为 10000.
 
-## after_cp80.npy
+
+## after_cp80_test.npy
 - 描述  
   将并行数据进行 OFDM 调制.   
   将并行数据, 先进行 IFFT 运算, 再加入循环前缀, 生成待发送的复包络的采样值(DAC前).  
@@ -62,14 +80,18 @@
   
 - 读取  
   `after_cp = np.load("./data_sets/after_cp80.npy")`
-  
+
+## after_cp80_train.npy
+- 描述  
+  基本同上, 除了行数为 10000.
+
 ## norm_amp.mat, norm_delay_ms.mat
 - 描述  
   是BELLHOP模型生成的复数信道冲激响应, 已经经过归一化处理.   
   此二者包含了非零冲激产生的时间, 和其对应的复数冲激幅度
 
 
-## after_channel80.npy
+## after_channel80_test.npy
 - 描述  
   将发送的复包络卷积转为串行后线性卷积多径信道的复数冲激响应, 再加上指定信噪比的复数高斯白噪声.  
   简略了同步操作. 又由于不引入
@@ -80,9 +102,13 @@
 
 - 读取  
   `after_channel = np.load("./data_sets/after_channel80.npy")`
-  
 
-## after_fft64.npy
+
+## after_channel80_train.npy
+- 描述
+  基本同上, 除了行数为 10000.
+
+## after_fft64_test.npy
 - 描述  
   去掉信道传来的每一个 OFDM 符号的前缀, 再进行 OFDM 解调, 以用于均衡.  
   
@@ -91,5 +117,10 @@
   
 - 读取  
   `after_fft64 = np.load("./data_sets/after_fft64.npy")`
+
+## after_fft64_train.npy
+- 描述  
+  基本同上, 除了行数为 10000.
   
+
 

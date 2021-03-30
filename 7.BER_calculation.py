@@ -8,7 +8,7 @@
 
 """
 输入:
-正确的四进制码元(0~3) labels48.csv, 1000 行 48 列;
+正确的四进制码元(0~3) labels48_test.csv, 1000 行 48 列;
 信道估计后并解调的码元(0~3) demodu_*.npy, 1000 行 64 列
 
 输出: 无
@@ -20,11 +20,13 @@ from MyUtils import acc
 
 '''1. Data pre-processing'''
 
-original_48 = np.loadtxt("./data_sets/labels48.csv", delimiter=",").astype(np.int)
+original_48 = np.loadtxt("./data_sets/labels48_test.csv", delimiter=",").astype(np.int)
+# original_48 = np.load("./data_sets/labels48_train.npy")
+
 # demodu64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
 demodu64 = np.load("./data_sets/demodu_LS.npy")  # LS
 # demodu64 = np.load("./data_sets/demodu_MMSE.npy")  # MMSE
-# demodu64 = np.load("./data_sets/demodu_Perfect.npy")
+# demodu64 = np.load("./data_sets/demodu_Perfect.npy")  # Perfect
 
 demodu48 = np.concatenate((demodu64[:, 6:11], demodu64[:, 12:25],
                            demodu64[:, 26:32], demodu64[:, 33:39],

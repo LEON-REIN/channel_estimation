@@ -9,12 +9,15 @@
 #                   忽略上变频, 即, f_c = 0Hz 时, s(t) = Re{a(t)}
 
 """
-输入: labels64.csv
+输入: labels64_test.csv
+      labels64_train.npy
 
-输出: after_cp80.npy
+输出: after_cp80_test.npy
     numpy 专用二进制储存格式.
     1000 行 80 列, 每个元素为 complex128 格式, 每一行的前 16 列为最后 16 列的复制;
     后 64 列为输入转换为复数后的 IFFT.
+
+    after_cp80_train.npy
 
 """
 
@@ -26,18 +29,19 @@ from scipy import interpolate as interp
 '''1. Data pre-processing'''
 
 # Read the integer data. Serial data.
-original_64 = np.loadtxt("./data_sets/labels64.csv", delimiter=",").astype(np.int).reshape(-1)
+original_64_test = np.loadtxt("./data_sets/labels64_test.csv", delimiter=",").astype(np.int).reshape(-1)
+original_64_train = np.load("./data_sets/labels64_train.npy").astype(np.int).reshape(-1)
 # Mapping int to complex. Real 4QAM modulation.
 mQAM_list = [1 + 0j, 0 + 1j, -1 + 0j, 0 - 1j]
-after_mapping = np.array([mQAM_list[orig] for orig in original_64])
+after_mapping = np.array([mQAM_list[orig] for orig in original_64_test])  # original_64_train
 # Serial to parallel
-to_ifft = after_mapping.reshape([1000, 64])
+to_ifft = after_mapping.reshape([-1, 64])
 
 '''2. OFDM-modulation (IFFT)'''
 
 # IFFT by row
 after_ifft = np.fft.ifft(to_ifft, axis=-1)  # Axis over which to compute the inverse DFT. The last axis(,64) is used.
-# Parseval's theorem
+# Parseval's theorem, been checked by the 0th symbol.
 assert abs(sum(abs(to_ifft[0])**2)/64 - sum(abs(after_ifft[0])**2)) < 0.0001
 
 '''3. CP(Cyclic Prefix)'''
@@ -45,8 +49,8 @@ assert abs(sum(abs(to_ifft[0])**2)/64 - sum(abs(after_ifft[0])**2)) < 0.0001
 # Concatenating numpy arrays horizontally
 after_cp = np.concatenate((after_ifft[:, -16:], after_ifft), axis=1)
 # Save the result
-# np.save("./data_sets/after_cp80.npy", after_cp)
-# after_cp = np.load("./data_sets/after_cp80.npy")  # load the data set
+# np.save("./data_sets/after_cp80_test.npy", after_cp)
+# after_cp = np.load("./data_sets/after_cp80_test.npy")  # load the data set
 
 '''4. Visualization'''
 

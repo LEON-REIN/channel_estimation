@@ -7,13 +7,15 @@
 #               经过多径信道并加入高斯白噪声
 
 """
-输入: after_cp80.npy
-    进入信道的数据
-    norm_amp.mat, norm_delay_ms.mat
-    归一化复数信道冲激响应的幅度和时延
+输入: after_cp80_test.npy  进入信道的数据
+    after_cp80_train.npy  进入信道的数据
+        norm_amp.mat, norm_delay_ms.mat  归一化复数信道冲激响应的幅度和时延
 
-输出: after_channel80.npy
+
+输出: after_channel80_test.npy
     1000 行 64 列, complex 矩阵
+
+    after_channel80_train.npy
 
 """
 
@@ -25,7 +27,8 @@ import h5py
 '''1. Data pre-processing'''
 
 # Read as serial symbols
-after_cp = np.load("./data_sets/after_cp80.npy").reshape(-1)
+after_cp = np.load("data_sets/after_cp80_test.npy").reshape(-1)  # after_cp80_train.npy
+# Read the FIR of BELLHOP channel
 norm_amp = h5py.File("./data_sets/norm_amp.mat", 'r')['normAmp'][:]
 norm_delay_ms = h5py.File("./data_sets/norm_delay_ms.mat", 'r')['normDelay_ms'][:]
 # Change their dtypes
@@ -52,7 +55,7 @@ for index, h_idx in enumerate(idx):
 
 # Discrete linear convolution
 after_bellhop_0 = np.convolve(after_cp, hn, mode='full')
-after_bellhop = after_bellhop_0[:80000].reshape(1000, 80)
+after_bellhop = after_bellhop_0[:after_cp.shape[0]].reshape(-1, 80)
 
 # AWGN
 np.random.seed(1)
@@ -60,15 +63,17 @@ SNR = 10  # dB
 _snr = 10 ** (SNR/10.0)  # how many times
 signal_power = np.sum(np.abs(after_bellhop) ** 2, axis=1) / 80
 n_power = signal_power / _snr
-noise = np.random.randn(1000, 80, 2).view(np.complex).reshape(1000, 80)
-noise_n = noise / np.sqrt(np.sum(np.abs(noise) ** 2, axis=1) / 80).reshape(1000, 1)  # Normalization
+noise = np.random.randn(after_bellhop.shape[0], after_bellhop.shape[1], 2)\
+    .view(np.complex).reshape(after_bellhop.shape)
+noise_n = noise / np.sqrt(np.sum(np.abs(noise) ** 2, axis=1) / 80)\
+    .reshape(after_bellhop.shape[0], 1)  # Normalization
 # print(np.sum(np.abs(noise_n) ** 2, axis=1) / 80)  # To show the power of each row
-after_channel = after_bellhop + noise_n * np.sqrt(n_power.reshape((1000, 1)))
+after_channel = after_bellhop + noise_n * np.sqrt(n_power.reshape((after_bellhop.shape[0], 1)))
 
 '''4. Save to file'''
 
-# np.save("./data_sets/after_channel80.npy", after_channel)
-# after_channel = np.load("./data_sets/after_channel80.npy")  # load the data set
+# np.save("./data_sets/after_channel80_test.npy", after_channel)
+# after_channel = np.load("./data_sets/after_channel80_test.npy")  # load the data set
 
 '''5. Visualization'''
 

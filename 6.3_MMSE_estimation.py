@@ -7,7 +7,7 @@
 #               对 FFT 解调后的数据进行信道估计并均衡, 使用 MMSE 方法
 
 """
-输入: after_fft64.npy
+输入: after_fft64_test.npy
     1000 行 64 列, complex 矩阵
 
 输出: demodu_LS.npy
@@ -25,7 +25,7 @@ hn = np.array([-1. + 1.22464680e-16j, 0.83357867 - 9.46647260e-01j, 0. + 0.00000
                0. + 0.00000000e+00j, 0. + 0.00000000e+00j, 0. + 0.00000000e+00j, 0.69663835 + 9.66204296e-01j,
                0. + 0.00000000e+00j, 0. + 0.00000000e+00j, 0. + 0.00000000e+00j, 0.66443826 + 5.86925110e-01j])
 hn = np.pad(hn, (0, 64 - len(hn)), 'constant', constant_values=(0, 0))
-after_fft64 = np.load("./data_sets/after_fft64.npy")  # Received symbols
+after_fft64 = np.load("data_sets/after_fft64_test.npy")  # Received symbols. after_fft64_train.npy
 mQAM_list = np.array([1 + 0j, 0 + 1j, -1 + 0j, 0 - 1j])
 pilot_idx = np.array([11, 25, 39, 53])  # index-32 is symbol '0' -> 1+0j
 xn_pilot = np.full(pilot_idx.shape, mQAM_list[3])  # pilot series

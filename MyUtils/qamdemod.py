@@ -44,8 +44,10 @@ def qamdemod(array: np.ndarray, maplist=None, init_phase=0) -> np.ndarray:
 
 
 if __name__ == '__main__':
-    after_fft64 = np.load("../data_sets/after_fft64.npy")  # Without channel equalization
-    original_48 = np.loadtxt("../data_sets/labels48.csv", delimiter=",").astype(np.int)
+    after_fft64 = np.load("../data_sets/after_fft64_test.npy")  # Without channel equalization
+    # after_fft64 = np.load("../data_sets/after_fft64_train.npy")  # Without channel equalization
+    original_48 = np.loadtxt("../data_sets/labels48_test.csv", delimiter=",").astype(np.int)
+    # original_48 = np.load("../data_sets/labels48_train.npy")
 
     demodu64 = qamdemod(after_fft64)
     demodu48 = np.concatenate((demodu64[:, 6:11], demodu64[:, 12:25],
@@ -54,5 +56,7 @@ if __name__ == '__main__':
 
     import acc
 
-    pe = acc.get_Pe(demodu48, original_48)
+    Pe = acc.get_Pe(demodu48, original_48)
     BER = acc.get_BER(demodu48, original_48)
+
+    print(f"With no equalizations, \nPe = {Pe}, BER = {BER}")

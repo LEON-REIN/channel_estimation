@@ -7,7 +7,7 @@
 #               对 FFT 解调后的数据进行信道估计并均衡, 使用 LS 方法并线性插值
 
 """
-输入: after_fft64.npy
+输入: after_fft64_test.npy
     1000 行 64 列, complex 矩阵
 
 输出: demodu_LS.npy
@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 
 '''1. Data pre-processing'''
 
-after_fft64 = np.load("./data_sets/after_fft64.npy")
+after_fft64 = np.load("data_sets/after_fft64_test.npy")  # after_fft64_train.npy
 mQAM_list = np.array([1 + 0j, 0 + 1j, -1 + 0j, 0 - 1j])
 pilot_idx = np.array([11, 25, 39, 53])  # index-32 is symbol '0' -> 1+0j
 xn_pilot = np.full(pilot_idx.shape, mQAM_list[3])  # pilot series
@@ -38,18 +38,18 @@ for i in np.arange(after_fft64.shape[0]):
 '''3. Visualization hn_LS of the first OFDM symbol'''
 
 # TODO: subplot
-plt.figure(1)
-plt.scatter(pilot_idx, abs(hn_pilot[0]))
-plt.plot(n, abs(hn_LS[0]))
-
-plt.figure(2)
-plt.scatter(pilot_idx, hn_pilot[0].real)
-plt.plot(n, hn_LS[0].real)
-
-plt.figure(3)
-plt.scatter(pilot_idx, hn_pilot[0].imag)
-plt.plot(n, hn_LS[0].imag)
-plt.show()
+# plt.figure(1)
+# plt.scatter(pilot_idx, abs(hn_pilot[0]))
+# plt.plot(n, abs(hn_LS[0]))
+#
+# plt.figure(2)
+# plt.scatter(pilot_idx, hn_pilot[0].real)
+# plt.plot(n, hn_LS[0].real)
+#
+# plt.figure(3)
+# plt.scatter(pilot_idx, hn_pilot[0].imag)
+# plt.plot(n, hn_LS[0].imag)
+# plt.show()
 
 
 '''4. Restore the signal which has been sent'''

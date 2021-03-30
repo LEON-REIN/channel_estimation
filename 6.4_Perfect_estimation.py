@@ -8,7 +8,7 @@
 
 
 """
-输入: after_fft64.npy
+输入: after_fft64_test.npy
     1000 行 64 列, complex 矩阵
 
 输出: demodu_Perfect.npy
@@ -27,7 +27,7 @@ hn = np.array([-1. + 1.22464680e-16j, 0.83357867 - 9.46647260e-01j, 0. + 0.00000
                0. + 0.00000000e+00j, 0. + 0.00000000e+00j, 0. + 0.00000000e+00j, 0.69663835 + 9.66204296e-01j,
                0. + 0.00000000e+00j, 0. + 0.00000000e+00j, 0. + 0.00000000e+00j, 0.66443826 + 5.86925110e-01j])
 hn = np.pad(hn, (0, 64 - len(hn)), 'constant', constant_values=(0, 0))
-after_fft64 = np.load("./data_sets/after_fft64.npy")  # Received symbols
+after_fft64 = np.load("data_sets/after_fft64_test.npy")  # Received symbols. after_fft64_train.npy
 
 
 '''2. Perfect Channel Estimating'''
