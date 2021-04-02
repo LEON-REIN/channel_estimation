@@ -23,8 +23,8 @@ from MyUtils import acc
 original_48 = np.loadtxt("./data_sets/labels48_test.csv", delimiter=",").astype(np.int)
 # original_48 = np.load("./data_sets/labels48_train.npy")
 
-# demodu64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
-demodu64 = np.load("./data_sets/demodu_LS.npy")  # LS
+demodu64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
+# demodu64 = np.load("./data_sets/demodu_LS.npy")  # LS
 # demodu64 = np.load("./data_sets/demodu_MMSE.npy")  # MMSE
 # demodu64 = np.load("./data_sets/demodu_Perfect.npy")  # Perfect
 
