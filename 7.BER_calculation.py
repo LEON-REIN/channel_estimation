@@ -28,6 +28,7 @@ demodu64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
 # demodu64 = np.load("./data_sets/demodu_MMSE.npy")  # MMSE
 # demodu64 = np.load("./data_sets/demodu_Perfect.npy")  # Perfect
 
+demodu64 = demodu64.astype(np.int)
 demodu48 = np.concatenate((demodu64[:, 6:11], demodu64[:, 12:25],
                            demodu64[:, 26:32], demodu64[:, 33:39],
                            demodu64[:, 40:53], demodu64[:, 54:59]), axis=1)
