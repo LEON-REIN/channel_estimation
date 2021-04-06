@@ -87,6 +87,8 @@ def acc_of_valid(y_true, y_pred):
     return num/48
 
 
+# 'CENet/V1.2/20210405-201842/CENet-V1.2.h5'
+# 'CENet/V2.6/20210405-135003/CENet-V2.6.h5'
 model = models.load_model('CENet/V2.6/20210405-135003/CENet-V2.6.h5',
                           custom_objects={
                               'MultiCrossEntropy': MultiCrossEntropy,

@@ -1,7 +1,7 @@
 # @.@ coding  : utf-8 ^-^
 # @Author     : Leon Rein
 # @Time       : 2021-04-05  ~  19:37 
-# @File       : CENet_V3.6.py
+# @File       : CENet-V3.6.py
 # @Software   : PyCharm
 # @Notice     : It's a WINDOWS version!
 #               3rd edition. Almost perfect!

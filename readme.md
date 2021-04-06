@@ -38,6 +38,15 @@
 ## 备注  
 
 Google colab 很方便! 速度比我笔记本的 GTX1070 快3倍!  
+
+## 使用环境  
+
+- Windows 10; Google Colab
+- Tensorflow-GPU 2.3.0 (IMPORTANT)
+- Python 3.7.6
+- Anaconda3 (conda 4.8.3)
+- CUDA 11.2 (by conda)
+
   
 
   

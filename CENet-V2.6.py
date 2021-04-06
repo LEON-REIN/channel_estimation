@@ -1,7 +1,7 @@
 # @.@ coding  : utf-8 ^-^
 # @Author     : Leon Rein
 # @Time       : 2021-04-05  ~  19:36 
-# @File       : CENet_V2.6.py
+# @File       : CENet-V2.6.py
 # @Software   : PyCharm
 # @Notice     : It's a WINDOWS version!
 #               2rd ed, accuracy of valid data up to 60%.
@@ -167,8 +167,6 @@ model.compile(
 4. Train the Model (Custom cycle-training model)
 '''
 
-# model.load_weights("CENet/V1.2/20210402-105120/ckpt/cp-0100.ckpt")
-
 # Callback 1 -- tensorboard
 # Execute "!tensorboard --logdir CENet\V1.2" in Ipython, if in Windows, to display TensorBoard.
 tensorboard_callback = tf.keras.callbacks.TensorBoard(logdir, histogram_freq=4, profile_batch=0)
@@ -229,6 +227,7 @@ model.save(os.path.join(logdir, 'CENet-'+__file__[-3-4:-3]+'.h5'))  # the old Ke
 aa = model.predict(to_test)
 bb = aa.reshape(-1, 4)
 cc = np.argmax(bb, axis=1).reshape(-1, 64).astype(np.int)  # onehot to 0~3
-np.save("./data_sets/demodu_CENet.npy", cc)  # Downloaded from Google Colab.
+np.save("./data_sets/demodu_CENet.npy", cc)
 # Pe = 0.43756249999999997, BER = 0.293625
 # BTW, 0.4375 + 0.5625 = 1
+
