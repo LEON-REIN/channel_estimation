@@ -217,6 +217,9 @@ model.fit(to_train,
           callbacks=[tensorboard_callback, lr_callback, cp_callback],
           workers=4,
           )
+# Epoch 150:
+# acc_of_all: 0.9737  -  acc_of_valid: 0.9649
+# val_acc_of_all: 1.0000 - val_acc_of_valid: 1.0000
 
 '''
 5. Save the Model
@@ -237,3 +240,4 @@ aa = model.predict(to_test)
 bb = aa.reshape(-1, 4)
 cc = np.argmax(bb, axis=1).reshape(-1, 64).astype(np.int)  # onehot to 0~3
 np.save("./data_sets/demodu_CENet.npy", cc)
+# Pe = 0.0, BER = 0.0

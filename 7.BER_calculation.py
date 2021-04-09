@@ -23,12 +23,12 @@ from MyUtils import acc
 original_48 = np.loadtxt("./data_sets/labels48_test.csv", delimiter=",").astype(np.int)
 # original_48 = np.load("./data_sets/labels48_train.npy")
 
+# demodu64 = np.load("./data_sets/test.npy")
 demodu64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
 # demodu64 = np.load("./data_sets/demodu_LS.npy")  # LS
 # demodu64 = np.load("./data_sets/demodu_MMSE.npy")  # MMSE
 # demodu64 = np.load("./data_sets/demodu_Perfect.npy")  # Perfect
 
-demodu64 = demodu64.astype(np.int)
 demodu48 = np.concatenate((demodu64[:, 6:11], demodu64[:, 12:25],
                            demodu64[:, 26:32], demodu64[:, 33:39],
                            demodu64[:, 40:53], demodu64[:, 54:59]), axis=1)
@@ -41,7 +41,7 @@ BER_no_eq = 0.586875  # from qamdemod.py
 
 '''3. BER & Pe calculation'''
 
-assert demodu48.dtype == np.int, "dtype is not int!"
+assert demodu48.dtype in [np.int64, np.int32], "dtype is not int!"
 # Error rate of symbols
 Pe = acc.get_Pe(demodu48, original_48)
 # Error rate of bits,and inputs should be np.array which is formed by 0~3
