@@ -14,8 +14,9 @@ from .qamdemod import *
 from .scatterplot import *
 from .acc import *
 from .rms import *
+from .get_dataset import *
 
-__all__ = ['qamdemod', 'scatterplot', 'get_Pe', 'get_BER', 'rms']
+__all__ = ['qamdemod', 'scatterplot', 'get_Pe', 'get_BER', 'rms', 'get_dataset']
 
 print(
     r"""

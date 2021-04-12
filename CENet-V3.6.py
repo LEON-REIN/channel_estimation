@@ -1,10 +1,10 @@
 # @.@ coding  : utf-8 ^-^
 # @Author     : Leon Rein
-# @Time       : 2021-04-05  ~  19:37 
+# @Time       : 2021-04-12  ~  21:12
 # @File       : CENet-V3.6.py
 # @Software   : PyCharm
 # @Notice     : It's a WINDOWS version!
-#               3rd edition. Almost perfect!
+#               3rd edition. It's  more smaller than 3.2 and performs better.
 
 
 import os  # Need to appear at the top
@@ -14,6 +14,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 import datetime
 import tensorflow as tf
 from tensorflow.keras import layers, optimizers, losses, metrics
+import tensorflow_addons as tfa  # pip install tensorflow_addons
 import numpy as np
 
 
@@ -30,7 +31,7 @@ logdir = os.path.join('CENet', __file__[-3-4:-3], stamp)  # path to log: ./CENet
 0. Hyperparameters
 '''
 
-BATCH_SIZE = 128
+BATCH_SIZE = 256
 
 '''
 1. Load datasets
@@ -95,32 +96,32 @@ to_test = tf.data.Dataset.zip((data_to_test, labels_to_test)) \
 
 inputs = layers.Input(shape=(64, 2))  # time_steps = 64, channel_num/feature_num = 2
 x = layers.LayerNormalization(axis=-2)(inputs)  # out: (, 64, 2); acts on 64
-x = layers.Conv1D(128, kernel_size=2, activation='tanh')(x)
-x0 = layers.Conv1D(256, kernel_size=2, activation='tanh')(x)
-# x0 = layers.MaxPool1D(pool_size=2, strides=None, padding='same')(x)
+x = layers.Conv1D(128, kernel_size=2, activation=tfa.activations.mish)(x)
+x0 = layers.Conv1D(128, kernel_size=2, activation=tfa.activations.mish)(x)
 
-x = layers.Bidirectional(layers.LSTM(128, return_sequences=True, recurrent_initializer='orthogonal'))(x0)
+x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, recurrent_initializer='orthogonal'))(x0)
 x = layers.LayerNormalization(axis=-1)(x)
-x = layers.Bidirectional(layers.LSTM(128, return_sequences=True, recurrent_initializer='orthogonal'))(x)
+x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, recurrent_initializer='orthogonal'))(x)
+# x = layers.LayerNormalization(axis=-1)(x)
 x1 = layers.add([x, x0])
 
-x = layers.LSTM(128, return_sequences=True, recurrent_initializer='orthogonal')(x1)
-x = layers.LayerNormalization(axis=-1)(x)
-x = layers.LSTM(128, return_sequences=True, recurrent_initializer='orthogonal')(x)
-x = layers.Bidirectional(layers.LSTM(128, return_sequences=True, recurrent_initializer='orthogonal'))(x)
+
+x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, recurrent_initializer='orthogonal'))(x1)
+x = layers.BatchNormalization()(x, training=True)
+x = layers.Conv1D(128, kernel_size=2, activation=tfa.activations.mish, padding='same')(x)
 x2 = layers.add([x, x1])
 
 # x = layers.Conv1D(64, kernel_size=3, activation='relu', padding='same')(x)
-# x = layers.Conv1D(32, kernel_size=3, activation='relu', padding='same')(x)
-x = layers.Flatten()(x2)  # Or, tf.squeeze
-x3 = layers.Dense(128, activation='elu')(x)
+x = layers.Conv1D(32, kernel_size=2, padding='same')(x2)
+x = layers.Flatten()(x)  # Or, tf.squeeze
+x = layers.Dropout(0.6)(x)
 
-x = layers.Dense(128, activation='elu')(x3)
-x = layers.Dense(128, activation='elu')(x)
+x3 = layers.Dense(128, activation=tfa.activations.mish)(x)
+x = layers.Dense(128, activation=tfa.activations.mish)(x3)
+x = layers.Dense(128, activation=tfa.activations.mish)(x)
 x = layers.add([x3, x])
+x = layers.BatchNormalization()(x, training=True)
 
-x = layers.Dense(128, activation='tanh')(x)
-# x = layers.Dropout(0.4)(x)
 outputs = layers.concatenate([layers.Dense(4, activation='softmax', name='out_' + str(i))(x)
                               for i in range(64)])  # 64 softmax layers
 model = tf.keras.Model(inputs=inputs, outputs=outputs)
@@ -213,19 +214,19 @@ print('\nSTART TRAINING!\n')
 model.fit(to_train,
           # batch_size=BATCH_SIZE,
           validation_data=to_test,
-          epochs=150,
-          callbacks=[tensorboard_callback, lr_callback, cp_callback],
+          epochs=50,
+          callbacks=[tensorboard_callback, cp_callback],  # lr_callback
           workers=4,
           )
-# Epoch 150:
-# acc_of_all: 0.9737  -  acc_of_valid: 0.9649
-# val_acc_of_all: 1.0000 - val_acc_of_valid: 1.0000
+# Epoch 50:
+# acc_of_all: 0.9339 - acc_of_valid: 0.9119
+# val_acc_of_all: 0.9294 - val_acc_of_valid: 0.9059
 
 '''
 5. Save the Model
 '''
 
-tf.keras.utils.plot_model(model, os.path.join('imgs', 'CENet-'+__file__[-3-4:-3]+'.png'),
+tf.keras.utils.plot_model(model, os.path.join(logdir, 'CENet-'+__file__[-3-4:-3]+'.png'),
                           show_shapes=True, dpi=300)
 # 1.1
 # Saved as model.h5

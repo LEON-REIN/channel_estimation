@@ -41,3 +41,4 @@ assert abs(sum(abs(drop_cp[0])**2) - sum(abs(after_fft64[0])**2)/64) < 0.0001
 
 # TODO: 可视化
 
+

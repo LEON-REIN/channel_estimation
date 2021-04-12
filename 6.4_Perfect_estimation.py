@@ -48,4 +48,3 @@ xn = after_fft64/hn_f
 
 demodu_Perfect = qamdemod(xn)
 # np.save("./data_sets/demodu_Perfect.npy", demodu_Perfect)
-

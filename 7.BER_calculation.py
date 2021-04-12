@@ -33,13 +33,7 @@ demodu48 = np.concatenate((demodu64[:, 6:11], demodu64[:, 12:25],
                            demodu64[:, 26:32], demodu64[:, 33:39],
                            demodu64[:, 40:53], demodu64[:, 54:59]), axis=1)
 
-'''2. BER when without channel equalization'''
-
-Pe_no_eq = 0.9310  # from qamdemod.py
-BER_no_eq = 0.586875  # from qamdemod.py
-
-
-'''3. BER & Pe calculation'''
+'''2. BER & Pe calculation'''
 
 assert demodu48.dtype in [np.int64, np.int32], "dtype is not int!"
 # Error rate of symbols
@@ -49,3 +43,27 @@ BER = acc.get_BER(demodu48, original_48)
 
 print(f"Pe = {Pe}, BER = {BER}")
 
+'''3. BER&Pe logs (1000symbols, SNR=10dB!!!)
+
+- BER when without channel equalization (from qamdemod.py)
+Pe_no_eq = 0.9310;  BER_no_eq = 0.586875 
+
+- LS
+Pe = 0.39054;  BER = 0.27606
+
+- MMSE
+--- demo
+    Pe = 0.37087;  BER = 0.26128
+
+- CENet 
+--- V1.2
+    Pe = 0.5866458333333333, BER = 0.3942916666666667
+--- V2.6
+    Pe = 0.43756249999999997, BER = 0.293625
+--- V3.2 
+    Pe = 0.17218750000000005, BER = 0.12060416666666662
+--- V3.6
+    Pe = 0.09387500000000004, BER = 0.06678125000000001    
+--- V4.3
+
+'''

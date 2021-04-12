@@ -33,3 +33,4 @@ np.random.seed(777)
 original_symbols_train = np.random.randint(low=0, high=4, size=(10000, 48), dtype=np.int)
 # np.save("./data_sets/labels48_train.npy", original_symbols_train)
 # original_symbols_train = np.load("./data_sets/labels48_train.npy")  # load the data set
+

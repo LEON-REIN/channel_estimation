@@ -4,7 +4,7 @@
 # @File       : acc.py
 # @Software   : PyCharm
 # @Notice     : It's a WINDOWS version!
-#
+#               Calculates the Pe & BER of series
 
 import numpy as np
 

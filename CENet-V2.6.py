@@ -213,7 +213,7 @@ model.fit(to_train,
 5. Save the Model
 '''
 
-tf.keras.utils.plot_model(model, os.path.join('imgs', 'CENet-'+__file__[-3-4:-3]+'.png'),
+tf.keras.utils.plot_model(model, os.path.join(logdir, 'CENet-'+__file__[-3-4:-3]+'.png'),
                           show_shapes=True, dpi=300)
 # 1.1
 # Saved as model.h5
@@ -230,4 +230,3 @@ cc = np.argmax(bb, axis=1).reshape(-1, 64).astype(np.int)  # onehot to 0~3
 np.save("./data_sets/demodu_CENet.npy", cc)
 # Pe = 0.43756249999999997, BER = 0.293625
 # BTW, 0.4375 + 0.5625 = 1
-

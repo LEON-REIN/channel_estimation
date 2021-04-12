@@ -228,6 +228,3 @@ np.save("./data_sets/demodu_CENet.npy", cc)
 # Pe = 0.5783125, BER = 0.3911875. From 7.BER_calculation.py
 # 0.5783 + 0.4217 = 1
 
-
-
-

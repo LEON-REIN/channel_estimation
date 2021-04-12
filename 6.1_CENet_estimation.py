@@ -11,9 +11,9 @@ import os  # Need to appear at the top
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = '2'  # Warnings or Errors ONLY
 os.environ["CUDA_VISIBLE_DEVICES"] = '0'
-import datetime
 import tensorflow as tf
 from tensorflow.keras import layers, optimizers, losses, metrics, models
+import tensorflow_addons as tfa  # IMPORTANT for models with tfa.activations.mish!!!
 import numpy as np
 
 
@@ -88,16 +88,22 @@ def acc_of_valid(y_true, y_pred):
 
 
 # 'CENet/V1.2/20210405-201842/CENet-V1.2.h5'
+# Pe = 0.5866458333333333, BER = 0.3942916666666667
 # 'CENet/V2.6/20210405-135003/CENet-V2.6.h5'
-# 'CENet/V3/20210406-084805/CENet-V3.2.h5'
-model = models.load_model('CENet/V3/20210406-084805/CENet-V3.2.h5',
+# Pe = 0.43756249999999997, BER = 0.293625
+# 'CENet/V3.2/20210412-210848/CENet-V3.2.h5'
+# Pe = 0.17218750000000005, BER = 0.12060416666666662
+# 'CENet/V3.6/20210412-131800/CENet-V3.6.h5'
+# Pe = 0.09387500000000004, BER = 0.06678125000000001
+model = models.load_model('CENet/V3.6/20210412-131800/CENet-V3.6.h5',
                           custom_objects={
                               'MultiCrossEntropy': MultiCrossEntropy,
                               'acc_of_all': acc_of_all,
-                              'acc_of_valid': acc_of_valid
+                              'acc_of_valid': acc_of_valid,
                            })
 
 aa = model.predict(to_test)
 bb = aa.reshape(-1, 4)
 cc = np.argmax(bb, axis=1).reshape(-1, 64).astype(np.int)  # onehot to 0~3
 np.save("./data_sets/demodu_CENet.npy", cc)
+

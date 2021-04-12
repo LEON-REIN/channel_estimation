@@ -90,12 +90,3 @@ original_64_onehot_train = original_64_onehot_train.reshape(original_64_train.sh
 # np.save("./data_sets/labels64_onehot_train.npy", original_64_onehot_train)
 # original_64_onehot = np.load("./data_sets/labels64_onehot_train.npy")  # load the data set
 
-
-
-
-
-
-
-
-
-

@@ -82,11 +82,3 @@ after_channel = after_bellhop + noise_n * np.sqrt(n_power.reshape((after_bellhop
 
 
 
-
-
-
-
-
-
-
-

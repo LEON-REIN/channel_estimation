@@ -76,4 +76,3 @@ plt.plot(x_axis, sample)
 plt.plot(time_axis, after_DAC)
 
 plt.show()
-
