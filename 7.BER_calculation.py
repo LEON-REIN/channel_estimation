@@ -23,15 +23,15 @@ from MyUtils import acc
 original_48 = np.loadtxt("./data_sets/labels48_test.csv", delimiter=",").astype(np.int)
 # original_48 = np.load("./data_sets/labels48_train.npy")
 
-# demodu64 = np.load("./data_sets/test.npy")
-demodu64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
-# demodu64 = np.load("./data_sets/demodu_LS.npy")  # LS
-# demodu64 = np.load("./data_sets/demodu_MMSE.npy")  # MMSE
-# demodu64 = np.load("./data_sets/demodu_Perfect.npy")  # Perfect
+# demodu_64 = np.load("./data_sets/test.npy")
+# demodu_64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
+# demodu_64 = np.load("./data_sets/demodu_LS.npy")  # LS
+# demodu_64 = np.load("./data_sets/demodu_MMSE.npy")  # MMSE
+demodu_64 = np.load("./data_sets/demodu_Perfect.npy")  # Perfect
 
-demodu48 = np.concatenate((demodu64[:, 6:11], demodu64[:, 12:25],
-                           demodu64[:, 26:32], demodu64[:, 33:39],
-                           demodu64[:, 40:53], demodu64[:, 54:59]), axis=1)
+demodu48 = np.concatenate((demodu_64[:, 6:11], demodu_64[:, 12:25],
+                           demodu_64[:, 26:32], demodu_64[:, 33:39],
+                           demodu_64[:, 40:53], demodu_64[:, 54:59]), axis=1)
 
 '''2. BER & Pe calculation'''
 
@@ -47,6 +47,9 @@ print(f"Pe = {Pe}, BER = {BER}")
 
 - BER when without channel equalization (from qamdemod.py)
 Pe_no_eq = 0.9310;  BER_no_eq = 0.586875 
+
+- Perfect equalization
+Pe = 0.08562499999999995, BER = 0.06120833333333331
 
 - LS
 Pe = 0.39054;  BER = 0.27606

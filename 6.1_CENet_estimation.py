@@ -21,9 +21,9 @@ BATCH_SIZE = 1000
 
 
 # 1000 by 64
-after_fft64_test = np.load("data_sets/after_fft64_test.npy")
+data_64_test = np.load("data_sets/after_fft64_test.npy")
 # 1000 by 256
-labels_to_test = np.load("data_sets/labels64_onehot_test.npy")
+labels_onehot = np.load("data_sets/labels64_onehot_test.npy")
 
 
 def flat_batch(dataset):
@@ -33,21 +33,22 @@ def flat_batch(dataset):
 '''2.2 Preparing Test Data'''
 # (64000, 2)
 data_to_test = tf.data.Dataset.from_tensor_slices(
-    tf.constant(after_fft64_test.view(np.float).reshape(-1, 2), dtype=tf.float32),
+    tf.constant(data_64_test.view(np.float).reshape(-1, 2), dtype=tf.float32),
 )
 
 # (64000, 2) -> (1000, 64, 2)
 data_to_test = data_to_test.window(64).flat_map(flat_batch)
 # (1000, 256)
-labels_to_test = tf.data.Dataset.from_tensor_slices(
-    tf.constant(labels_to_test, dtype=tf.float32)
+labels_onehot = tf.data.Dataset.from_tensor_slices(
+    tf.constant(labels_onehot, dtype=tf.float32)
 )
-to_test = tf.data.Dataset.zip((data_to_test, labels_to_test)) \
+to_test = tf.data.Dataset.zip((data_to_test, labels_onehot)) \
     .batch(BATCH_SIZE) \
     .prefetch(tf.data.experimental.AUTOTUNE) \
     .cache()  # cache the dataset into RAM
 
 
+# Custom loss function
 class MultiCrossEntropy(losses.Loss):
     def call(self, y_true, y_pred):
         # print(y_true.shape, y_pred.shape)  # (None, 256) (None, 256)
@@ -105,5 +106,5 @@ model = models.load_model('CENet/V3.6/20210412-131800/CENet-V3.6.h5',
 aa = model.predict(to_test)
 bb = aa.reshape(-1, 4)
 cc = np.argmax(bb, axis=1).reshape(-1, 64).astype(np.int)  # onehot to 0~3
-np.save("./data_sets/demodu_CENet.npy", cc)
+# np.save("./data_sets/demodu_CENet.npy", cc)
 
