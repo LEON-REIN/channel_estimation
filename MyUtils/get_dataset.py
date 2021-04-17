@@ -129,13 +129,13 @@ if __name__ == '__main__':
     assert np.sum(labels48 - get_valid_data(labels64)) < 0.00001
     print("Pass the test!")
 
-    """You can generate dataset for DNN like this"""
-    data_64, labels_int_64 = get_dataset(num=4000, SNR=np.Inf)
+    """You can generate dataset for DNN like this!"""
+    data_64, labels_int_64 = get_dataset(num=15000, SNR=-8)
     labels_onehot = get_onehot(labels_int_64, 4)
-    dB_list = [8, 9, 10, 20, 30, 40, 50]
+    dB_list = [-7, -6, -5, -4, -3, -1, 0, 1, 2, 3, 4, 5, 7,  9, 10, 11, 14, 20, 30, np.Inf]
     for SNR_ in dB_list:
-        new_data_64, new_labels_int_64 = get_dataset(num=4000, SNR=SNR_)
-        new_labels_onehot = get_onehot(labels_int_64, 4)
+        new_data_64, new_labels_int_64 = get_dataset(num=10000, SNR=SNR_)
+        new_labels_onehot = get_onehot(new_labels_int_64, 4)
         data_64 = np.concatenate((data_64, new_data_64), axis=0)
         labels_onehot = np.concatenate((labels_onehot, new_labels_onehot), axis=0)
 

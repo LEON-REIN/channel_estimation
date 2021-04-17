@@ -40,7 +40,7 @@ from MyUtils import acc, get_dataset, qamdemod, get_onehot, get_int_from_onehot
 *********************************************************************************
 """
 
-dB_list = [-3, 0, 3, 6, 10, 15, 20, 30, 40, 50]
+dB_list = [-7, -5, -3, -1, 1, 3, 5, 7, 10, 15, 20, 30, 40, 50]
 mQAM_list = np.array([1 + 0j, 0 + 1j, -1 + 0j, 0 - 1j])
 
 
@@ -233,7 +233,7 @@ with plt.style.context(['ieee', 'grid']):
     plt.legend(edgecolor='k')
     plt.title("Pe  Performance")
     plt.ylabel("Pe")
-    plt.ylim([-0.1, 1.05])
+    plt.ylim([10**(-2.6), 1.2])
     plt.xlabel("SNR [dB]")
     plt.gcf().subplots_adjust(left=0.15, bottom=0.15)  # Expanded display area
     plt.show()
@@ -251,7 +251,7 @@ with plt.style.context(['ieee', 'grid']):
     plt.legend(edgecolor='k')
     plt.title("BER Performance")
     plt.ylabel("BER")
-    plt.ylim([-0.1, 1.05])
+    plt.ylim([10**(-2.6), 1.2])
     plt.xlabel("SNR [dB]")
     plt.gcf().subplots_adjust(left=0.15, bottom=0.15)  # Expanded display area
     plt.show()
