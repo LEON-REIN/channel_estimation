@@ -40,7 +40,7 @@ from MyUtils import acc, get_dataset, qamdemod, get_onehot, get_int_from_onehot
 *********************************************************************************
 """
 
-dB_list = [-7, -5, -3, -1, 1, 3, 5, 7, 10, 15, 20, 30, 40, 50]
+dB_list = [-7, -5, -3, -1, 1, 3, 5, 7, 10, 15, 20, 21, 30, 40, 50]
 mQAM_list = np.array([1 + 0j, 0 + 1j, -1 + 0j, 0 - 1j])
 
 
@@ -92,7 +92,8 @@ def acc_of_valid(y_true, y_pred):
     return num / 48
 
 
-model = models.load_model('CENet/V3.6/20210412-131800/CENet-V3.6.h5',
+# 'CENet/V3.6/20210412-131800/CENet-V3.6.h5'
+model = models.load_model('CENet/V3.6/20210420-085719/CENet-V3.6.h5',
                           custom_objects={
                               'MultiCrossEntropy': MultiCrossEntropy,
                               'acc_of_all': acc_of_all,

@@ -243,5 +243,5 @@ model.save(os.path.join(logdir, 'CENet-'+__file__[-3-4:-3]+'.h5'))  # the old Ke
 aa = model.predict(to_test)
 bb = aa.reshape(-1, 4)
 cc = np.argmax(bb, axis=1).reshape(-1, 64).astype(np.int)  # onehot to 0~3
-np.save("./data_sets/demodu_CENet.npy", cc)
+# np.save("./data_sets/demodu_CENet.npy", cc)
 # Pe = 0.0, BER = 0.0

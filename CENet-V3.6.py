@@ -34,7 +34,7 @@ logdir = os.path.join('CENet', __file__[-3-4:-3], stamp)  # path to log: ./CENet
 BATCH_SIZE = 256
 
 '''
-1. Load datasets
+1. Load datasets (To generate the dataset, see -> the last part of get_dataset.py)
 '''
 
 # 10000 rows by 64 columns. Each element is a complex number.
@@ -240,5 +240,5 @@ model.save(os.path.join(logdir, 'CENet-'+__file__[-3-4:-3]+'.h5'))  # the old Ke
 aa = model.predict(to_test)
 bb = aa.reshape(-1, 4)
 cc = np.argmax(bb, axis=1).reshape(-1, 64).astype(np.int)  # onehot to 0~3
-np.save("./data_sets/demodu_CENet.npy", cc)
+# np.save("./data_sets/demodu_CENet.npy", cc)
 # Pe = 0.0, BER = 0.0

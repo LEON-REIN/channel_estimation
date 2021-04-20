@@ -130,14 +130,14 @@ if __name__ == '__main__':
     print("Pass the test!")
 
     """You can generate dataset for DNN like this!"""
-    data_64, labels_int_64 = get_dataset(num=15000, SNR=-8)
-    labels_onehot = get_onehot(labels_int_64, 4)
-    dB_list = [-7, -6, -5, -4, -3, -1, 0, 1, 2, 3, 4, 5, 7,  9, 10, 11, 14, 20, 30, np.Inf]
-    for SNR_ in dB_list:
-        new_data_64, new_labels_int_64 = get_dataset(num=10000, SNR=SNR_)
-        new_labels_onehot = get_onehot(new_labels_int_64, 4)
-        data_64 = np.concatenate((data_64, new_data_64), axis=0)
-        labels_onehot = np.concatenate((labels_onehot, new_labels_onehot), axis=0)
+    # data_64, labels_int_64 = get_dataset(num=10000, SNR=-8)
+    # labels_onehot = get_onehot(labels_int_64, 4)
+    # dB_list = [-7, -5, -3, -1, 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 30, 40, 50, np.Inf]
+    # for SNR_ in dB_list:
+    #     new_data_64, new_labels_int_64 = get_dataset(num=10000, SNR=SNR_)
+    #     new_labels_onehot = get_onehot(new_labels_int_64, 4)
+    #     data_64 = np.concatenate((data_64, new_data_64), axis=0)
+    #     labels_onehot = np.concatenate((labels_onehot, new_labels_onehot), axis=0)
 
-    # np.save(f'D:\move\Desktop\data_64.npy', data_64)
-    # np.save(f'D:\move\Desktop\labels_onehot.npy', labels_onehot)
+    # np.save(r'D:\move\Desktop\data_64.npy', data_64)
+    # np.save(r'D:\move\Desktop\labels_onehot.npy', labels_onehot)
