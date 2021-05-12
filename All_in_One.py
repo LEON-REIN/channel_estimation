@@ -20,17 +20,11 @@ from scipy import interpolate as interp
 from MyUtils import acc, get_dataset, qamdemod, get_onehot, get_int_from_onehot
 
 ###################################################################################################
-# Basic simulation conditions
-# ...
-#
-#
-#
-#
-#
-#
-#
-#
-#
+# Basic simulation conditions                                                                     #
+# See --> readme.md from repository root                                                          #
+#                                                                                                 #
+#                                                                                                 #
+#                                                                                                 #
 ###################################################################################################
 
 
