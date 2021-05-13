@@ -86,8 +86,8 @@ def acc_of_valid(y_true, y_pred):
     return num / 48
 
 
-# 'CENet/V3.6/20210412-131800/CENet-V3.6.h5'
-model = models.load_model('CENet/V3.6/20210420-085719/CENet-V3.6.h5',
+# 'CENet/V3.6/20210513-132808/CENet-V3.6.h5'
+model = models.load_model('CENet/V3.6/20210513-152432、/CENet-V3.6.h5',
                           custom_objects={
                               'MultiCrossEntropy': MultiCrossEntropy,
                               'acc_of_all': acc_of_all,
@@ -225,7 +225,7 @@ with plt.style.context(['ieee', 'grid']):
     plt.plot(dB_list, Pe_array[3], label="Perfect")
     plt.plot(dB_list, Pe_array[4], label="No EQ")
     plt.autoscale(tight=True)
-    plt.legend(edgecolor='k')
+    plt.legend(edgecolor='k', loc='lower right')
     plt.title("Pe  Performance")
     plt.ylabel("Pe")
     plt.ylim([10**(-2.6), 1.2])
@@ -243,7 +243,7 @@ with plt.style.context(['ieee', 'grid']):
     plt.plot(dB_list, BER_array[3], label="Perfect")
     plt.plot(dB_list, BER_array[4], label="No EQ")
     plt.autoscale(tight=True)
-    plt.legend(edgecolor='k')
+    plt.legend(edgecolor='k', loc='lower right')
     plt.title("BER Performance")
     plt.ylabel("BER")
     plt.ylim([10**(-2.6), 1.2])

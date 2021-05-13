@@ -34,7 +34,7 @@ logdir = os.path.join('CENet', __file__[-3-4:-3], stamp)  # path to log: ./CENet
 BATCH_SIZE = 256
 
 '''
-1. Load datasets (To generate the dataset, see -> the last part of get_dataset.py)
+1. Load datasets of 10dB (To generate the dataset, see -> the last part of get_dataset.py)
 '''
 
 # 10000 rows by 64 columns. Each element is a complex number.
@@ -99,22 +99,20 @@ x = layers.LayerNormalization(axis=-2)(inputs)  # out: (, 64, 2); acts on 64
 x = layers.Conv1D(128, kernel_size=2, activation=tfa.activations.mish)(x)
 x0 = layers.Conv1D(128, kernel_size=2, activation=tfa.activations.mish)(x)
 
-x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, recurrent_initializer='orthogonal'))(x0)
+x = layers.Bidirectional(layers.LSTM(64, return_sequences=True))(x0)
 x = layers.LayerNormalization(axis=-1)(x)
-x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, recurrent_initializer='orthogonal'))(x)
-# x = layers.LayerNormalization(axis=-1)(x)
+x = layers.Bidirectional(layers.LSTM(64, return_sequences=True))(x)
 x1 = layers.add([x, x0])
 
 
-x = layers.Bidirectional(layers.LSTM(64, return_sequences=True, recurrent_initializer='orthogonal'))(x1)
-x = layers.BatchNormalization()(x, training=True)
+x = layers.Bidirectional(layers.LSTM(64, return_sequences=True))(x1)
+x = layers.LayerNormalization(axis=-1)(x)
 x = layers.Conv1D(128, kernel_size=2, activation=tfa.activations.mish, padding='same')(x)
 x2 = layers.add([x, x1])
 
-# x = layers.Conv1D(64, kernel_size=3, activation='relu', padding='same')(x)
-x = layers.Conv1D(32, kernel_size=2, padding='same')(x2)
+x = layers.Conv1D(8, kernel_size=3, padding='same')(x2)
 x = layers.Flatten()(x)  # Or, tf.squeeze
-x = layers.Dropout(0.6)(x)
+x = layers.Dropout(0.5)(x)
 
 x3 = layers.Dense(128, activation=tfa.activations.mish)(x)
 x = layers.Dense(128, activation=tfa.activations.mish)(x3)
@@ -219,8 +217,8 @@ model.fit(to_train,
           workers=4,
           )
 # Epoch 50:
-# acc_of_all: 0.9339 - acc_of_valid: 0.9119
-# val_acc_of_all: 0.9294 - val_acc_of_valid: 0.9059
+# acc_of_all: 0.9069 - acc_of_valid: 0.8758
+# val_acc_of_all: 0.9287 - val_acc_of_valid: 0.9049
 
 '''
 5. Save the Model
@@ -241,4 +239,4 @@ aa = model.predict(to_test)
 bb = aa.reshape(-1, 4)
 cc = np.argmax(bb, axis=1).reshape(-1, 64).astype(np.int)  # onehot to 0~3
 # np.save("./data_sets/demodu_CENet.npy", cc)
-# Pe = 0.0, BER = 0.0
+# Pe = 0.0950833333333333, BER = 0.06799999999999995

@@ -24,10 +24,10 @@ original_48 = np.loadtxt("./data_sets/labels48_test.csv", delimiter=",").astype(
 # original_48 = np.load("./data_sets/labels48_train.npy")
 
 # demodu_64 = np.load("./data_sets/test.npy")
-# demodu_64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
+demodu_64 = np.load("./data_sets/demodu_CENet.npy")  # CENet
 # demodu_64 = np.load("./data_sets/demodu_LS.npy")  # LS
 # demodu_64 = np.load("./data_sets/demodu_MMSE.npy")  # MMSE
-demodu_64 = np.load("./data_sets/demodu_Perfect.npy")  # Perfect
+# demodu_64 = np.load("./data_sets/demodu_Perfect.npy")  # Perfect
 
 demodu48 = np.concatenate((demodu_64[:, 6:11], demodu_64[:, 12:25],
                            demodu_64[:, 26:32], demodu_64[:, 33:39],
@@ -66,6 +66,6 @@ Pe = 0.39054;  BER = 0.27606
 --- V3.2 
     Pe = 0.17218750000000005, BER = 0.12060416666666662
 --- V3.6
-    Pe = 0.0854583333333333, BER = 0.061260416666666706    
+    Pe = 0.0950833333333333, BER = 0.06799999999999995    
 
 '''
