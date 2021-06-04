@@ -64,15 +64,23 @@ f = interp.interp1d(x_axis, sample, kind='cubic')
 after_DAC = f(time_axis)
 
 # Show the wave
-plt.xlim((0, 150))
-plt.ylim((-0.2, 0.25))
-plt.xlabel(r"$Time\ in\ One\ OFDM\ Symbol\ (ms)$")
-plt.ylabel(r"$Voltage (V)$")
-plt.xticks([0, 30, 60, 90, 120, 150])
-plt.title(r"$One\ OFDM\ Symbol$")
+with plt.style.context(['ieee', 'grid']):
+    plt.rcParams['font.serif'] = ['Times New Roman']
+    plt.xlim((0, 150))
+    plt.ylim((-0.2, 0.25))
+    plt.xlabel(r"$Time\ in\ One\ OFDM\ Symbol\ (ms)$")
+    plt.ylabel(r"$Voltage (V)$")
+    plt.xticks([0, 30, 60, 90, 120, 150])
+    plt.title(r"$One\ OFDM\ Symbol$")
 
-plt.vlines(30, -0.2, 0.25, colors="k", linestyles="dashed")
-plt.plot(x_axis, sample)
-plt.plot(time_axis, after_DAC)
+    plt.vlines(30, -0.2, 0.25, colors="k", linestyles="dashed")
+    # plt.plot(x_axis, sample)
+    plt.plot(time_axis, after_DAC)
+    plt.gcf().subplots_adjust(left=0.15, bottom=0.15)
+    # plt.savefig('one_symbol.png', dpi=400)
+    plt.show()
 
-plt.show()
+
+from MyUtils import scatterplot as scp
+
+scp(to_ifft[0:3])

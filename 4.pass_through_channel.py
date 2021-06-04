@@ -13,7 +13,7 @@
 
 
 输出: after_channel80_test.npy
-    1000 行 64 列, complex 矩阵
+    1000 行 80 列, complex 矩阵
 
     after_channel80_train.npy
 
@@ -76,8 +76,34 @@ after_channel = after_bellhop + noise_n * np.sqrt(n_power.reshape((after_bellhop
 # after_channel = np.load("./data_sets/after_channel80_test.npy")  # load the data set
 
 '''5. Visualization'''
+import matplotlib.pyplot as plt
+from scipy import interpolate as interp
 
-# TODO: 可视化
+# Choose one of the OFDM symbols (after_channel, using the I/Q modulation)
+sample = np.real(after_channel[0])  # real discrete wave to send, 150ms, f_c = 0Hz
+x_axis = np.linspace(0, 150, 80)  # 150ms for 80 points
+time_axis = np.linspace(0, 150, 80*5)  # 5*2 = 10 times the sampling rate (Negtive Frequency)
+
+# Interpolate
+f = interp.interp1d(x_axis, sample, kind='cubic')
+after_awgn = f(time_axis)
+
+# Show the wave
+with plt.style.context(['ieee', 'grid']):
+    plt.rcParams['font.serif'] = ['Times New Roman']
+    plt.xlim((0, 150))
+    # plt.ylim((-0.2, 0.25))
+    plt.xlabel(r"$Time\ in\ One\ OFDM\ Symbol\ (ms)$")
+    plt.ylabel(r"$Voltage (V)$")
+    plt.xticks([0, 30, 60, 90, 120, 150])
+    plt.title(r"$One\ OFDM\ Symbol$")
+
+    plt.vlines(30, -0.2, 0.25, colors="k", linestyles="dashed")
+    # plt.plot(x_axis, sample)
+    plt.plot(time_axis, after_awgn)
+    plt.gcf().subplots_adjust(left=0.15, bottom=0.15)
+    # plt.savefig('one_symbol.png', dpi=400)
+    plt.show()
 
 
 

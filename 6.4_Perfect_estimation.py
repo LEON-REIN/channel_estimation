@@ -48,3 +48,7 @@ xn = after_fft64/hn_f
 
 demodu_Perfect = qamdemod(xn)
 # np.save("./data_sets/demodu_Perfect.npy", demodu_Perfect)
+
+'''6. Visualization'''
+from MyUtils import scatterplot as scp
+scp(xn[0:2])
